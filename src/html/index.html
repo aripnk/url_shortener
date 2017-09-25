@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+<div class="container">
+  <h1 id="returnval"></h1>
+  <h3 id="message"></h3>
+  <h2>Random URL</h2>
+  <form action="/action_page.php" id="random">
+    <div class="form-group">
+      <label for="url">Your URL :</label>
+      <input type="text" class="form-control" id="url" placeholder="Enter url" name="url">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+  </br></br>
+
+  <h2>Custom URL</h2>
+  <form action="/action_page.php" id="custom">
+    <div class="form-group">
+      <label for="url">Your URL :</label>
+      <input type="text" class="form-control" id="url" placeholder="Enter url" name="url">
+    </div>
+    <div class="form-group">
+      <label for="custom">Custom :</label>
+      <input type="text" class="form-control" id="custom" placeholder="Enter custom" name="custom">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+//FORM HANDLER
+$("#random").submit(function( event ) {
+  var param = $("#random").serializeArray();
+  var jsn = JSON.stringify(param);
+  var posting = $.post("http://localhost:10000/short_random",jsn);
+  console.log(jsn);
+
+
+  posting.done(function(datajs) {
+    if (datajs){
+      if(datajs.status == 0){
+        $("#returnval").html("http://localhost:10000/"+datajs.url);
+        $("#message").html("View unique visitor hit count after your first hit </br> \
+        http://localhost:10000/"+datajs.url+".yyyy.m.d </br> </br>\
+        Example : </br> \
+        http://localhost:10000/"+datajs.url+".2017 (yyyy)</br> \
+        http://localhost:10000/"+datajs.url+".2017.3 (yyyy.m)</br> \
+        http://localhost:10000/"+datajs.url+".2017.10 (yyyy.mm)</br> \
+        http://localhost:10000/"+datajs.url+".2017.3.12 (yyyy.m.dd)</br> \
+        http://localhost:10000/"+datajs.url+".2017.10.1 (yyyy.mm.d)</br> \
+        ");
+        document.getElementById("random").reset();
+      }else{
+        $('#returnval').html('Oops :( Try Again)');
+      }
+    }else{
+        $("#returnval").html('Oops, check your connection');
+    }
+  });
+
+  event.preventDefault();
+});
+
+
+//FORM HANDLER
+$("#custom").submit(function( event ) {
+  var param = $("#custom").serializeArray();
+  var jsn = JSON.stringify(param);
+  var posting = $.post("http://localhost:10000/short_custom",jsn);
+  console.log(jsn);
+
+
+  posting.done(function(datajs) {
+    if (datajs){
+      if(datajs.status == 0){
+        $("#returnval").html("http://localhost:10000/"+datajs.url);
+        $("#message").html("View unique visitor hit count after your first hit </br> \
+        http://localhost:10000/"+datajs.url+".yyyy.m.d </br> </br>\
+        Example : </br> \
+        http://localhost:10000/"+datajs.url+".2017 (yyyy)</br> \
+        http://localhost:10000/"+datajs.url+".2017.3 (yyyy.m)</br> \
+        http://localhost:10000/"+datajs.url+".2017.10 (yyyy.mm)</br> \
+        http://localhost:10000/"+datajs.url+".2017.3.12 (yyyy.m.dd)</br> \
+        http://localhost:10000/"+datajs.url+".2017.10.1 (yyyy.mm.d)</br> \
+        ");
+        document.getElementById("random").reset();
+      }else{
+        $('#returnval').html('Oops :( Try Again)');
+      }
+    }else{
+        $("#returnval").html('Oops, check your connection');
+    }
+  });
+
+  event.preventDefault();
+});
+
+
+</script>
+
+</body>
+</html>
